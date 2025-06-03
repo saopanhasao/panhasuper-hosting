@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechHub - Premium Phone Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .cart-info {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 10px 20px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .cart-info:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .filters {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        
+        .filter-group label {
+            color: white;
+            font-weight: bold;
+        }
+        
+        .filter-group select, .filter-group input {
+            padding: 8px 15px;
+            border: none;
+            border-radius: 25px;
+            background: rgba(255, 255, 255, 0.9);
+            outline: none;
+            font-size: 14px;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+            margin-bottom: 30px;
+        }
+        
+        .product-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .product-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            font-size: 3em;
+            color: #666;
+        }
+        
+        .product-name {
+            font-size: 1.4em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .product-specs {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+        }
+        
+        .product-price {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #e74c3c;
+            margin-bottom: 20px;
+        }
+        
+        .product-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .quantity-control {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .quantity-btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .quantity-btn:hover {
+            background: #5a6fd8;
+            transform: scale(1.1);
+        }
+        
+        .quantity-input {
+            width: 60px;
+            text-align: center;
+            padding: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            outline: none;
+        }
+        
+        .add-to-cart {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+        
+        .add-to-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .payment-methods {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .payment-title {
+            color: white;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .payment-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .payment-option {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        
+        .payment-option:hover {
+            background: white;
+            border-color: #667eea;
+            transform: translateY(-3px);
+        }
+        
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+        }
+        
+        .cart-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        
+        .cart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .close-cart {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: #999;
+        }
+        
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .cart-total {
+            font-size: 1.5em;
+            font-weight: bold;
+            text-align: right;
+            margin-top: 20px;
+            color: #e74c3c;
+        }
+        
+        .checkout-btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .checkout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .logo {
+                font-size: 2em;
+            }
+            
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="logo">📱 TechHub</div>
+                <div class="cart-info" onclick="toggleCart()">
+                    🛒 Cart (<span id="cart-count">0</span>) - $<span id="cart-total">0.00</span>
+                </div>
+            </div>
+        </header>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>Brand:</label>
+                <select id="brand-filter" onchange="filterProducts()">
+                    <option value="">All Brands</option>
+                    <option value="iPhone">iPhone</option>
+                    <option value="Samsung">Samsung</option>
+                    <option value="Google">Google</option>
+                    <option value="OnePlus">OnePlus</option>
+                </select>
+                
+                <label>Price Range:</label>
+                <select id="price-filter" onchange="filterProducts()">
+                    <option value="">All Prices</option>
+                    <option value="0-500">Under $500</option>
+                    <option value="500-800">$500 - $800</option>
+                    <option value="800-1200">$800 - $1200</option>
+                    <option value="1200+">Above $1200</option>
+                </select>
+                
+                <label>Search:</label>
+                <input type="text" id="search-input" placeholder="Search phones..." oninput="filterProducts()">
+            </div>
+        </div>
+        
+        <div class="products-grid" id="products-grid">
+            <!-- Products will be dynamically generated -->
+        </div>
+        
+        <div class="payment-methods">
+            <div class="payment-title">🔒 Secure Payment Methods</div>
+            <div class="payment-options">
+                <div class="payment-option">
+                    <div style="font-size: 2em; margin-bottom: 10px;">💳</div>
+                    <div><strong>Credit Card</strong><br>Visa, MasterCard, Amex</div>
+                </div>
+                <div class="payment-option">
+                    <div style="font-size: 2em; margin-bottom: 10px;">📱</div>
+                    <div><strong>Digital Wallet</strong><br>Apple Pay, Google Pay</div>
+                </div>
+                <div class="payment-option">
+                    <div style="font-size: 2em; margin-bottom: 10px;">🏦</div>
+                    <div><strong>Bank Transfer</strong><br>Direct bank payment</div>
+                </div>
+                <div class="payment-option">
+                    <div style="font-size: 2em; margin-bottom: 10px;">💰</div>
+                    <div><strong>Buy Now Pay Later</strong><br>Klarna, Afterpay</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Cart Modal -->
+    <div class="cart-modal" id="cart-modal">
+        <div class="cart-content">
+            <div class="cart-header">
+                <h2>🛒 Shopping Cart</h2>
+                <button class="close-cart" onclick="toggleCart()">×</button>
+            </div>
+            <div id="cart-items">
+                <p style="text-align: center; color: #999; padding: 20px;">Your cart is empty</p>
+            </div>
+            <div class="cart-total" id="modal-cart-total">Total: $0.00</div>
+            <button class="checkout-btn" onclick="checkout()">Proceed to Checkout</button>
+        </div>
+    </div>
+
+    <script>
+        const phones = [
+            {
+                id: 1,
+                name: "iPhone 15 Pro Max",
+                brand: "iPhone",
+                price: 1199,
+                specs: "6.7\" Display, A17 Pro Chip, 256GB, Triple Camera",
+                icon: "📱",
+                stock: 25
+            },
+            {
+                id: 2,
+                name: "Samsung Galaxy S24 Ultra",
+                brand: "Samsung",
+                price: 1299,
+                specs: "6.8\" Display, Snapdragon 8 Gen 3, 256GB, S Pen",
+                icon: "📱",
+                stock: 18
+            },
+            {
+                id: 3,
+                name: "Google Pixel 8 Pro",
+                brand: "Google",
+                price: 999,
+                specs: "6.7\" Display, Google Tensor G3, 128GB, AI Camera",
+                icon: "📱",
+                stock: 30
+            },
+            {
+                id: 4,
+                name: "OnePlus 12",
+                brand: "OnePlus",
+                price: 799,
+                specs: "6.82\" Display, Snapdragon 8 Gen 3, 256GB, Fast Charge",
+                icon: "📱",
+                stock: 22
+            },
+            {
+                id: 5,
+                name: "iPhone 15",
+                brand: "iPhone",
+                price: 799,
+                specs: "6.1\" Display, A16 Bionic, 128GB, Dual Camera",
+                icon: "📱",
+                stock: 35
+            },
+            {
+                id: 6,
+                name: "Samsung Galaxy S24",
+                brand: "Samsung",
+                price: 899,
+                specs: "6.2\" Display, Exynos 2400, 256GB, Triple Camera",
+                icon: "📱",
+                stock: 28
+            },
+            {
+                id: 7,
+                name: "Google Pixel 8",
+                brand: "Google",
+                price: 699,
+                specs: "6.2\" Display, Google Tensor G3, 128GB, Magic Eraser",
+                icon: "📱",
+                stock: 40
+            },
+            {
+                id: 8,
+                name: "OnePlus 12R",
+                brand: "OnePlus",
+                price: 499,
+                specs: "6.78\" Display, Snapdragon 8s Gen 3, 128GB, 100W Charge",
+                icon: "📱",
+                stock: 33
+            }
+        ];
+
+        let cart = [];
+        let filteredPhones = [...phones];
+
+        function renderProducts() {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '';
+            
+            filteredPhones.forEach(phone => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <div class="product-image">${phone.icon}</div>
+                    <div class="product-name">${phone.name}</div>
+                    <div class="product-specs">${phone.specs}</div>
+                    <div class="product-price">$${phone.price.toLocaleString()}</div>
+                    <div class="product-controls">
+                        <div class="quantity-control">
+                            <button class="quantity-btn" onclick="changeQuantity(${phone.id}, -1)">−</button>
+                            <input type="number" class="quantity-input" id="qty-${phone.id}" value="1" min="1" max="${phone.stock}">
+                            <button class="quantity-btn" onclick="changeQuantity(${phone.id}, 1)">+</button>
+                        </div>
+                    </div>
+                    <div style="font-size: 0.9em; color: #666; margin-bottom: 15px;">
+                        📦 ${phone.stock} in stock | 🚚 Free shipping | ⭐ 4.8/5 rating
+                    </div>
+                    <button class="add-to-cart" onclick="addToCart(${phone.id})">
+                        Add to Cart
+                    </button>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function changeQuantity(phoneId, change) {
+            const input = document.getElementById(`qty-${phoneId}`);
+            const phone = phones.find(p => p.id === phoneId);
+            let newValue = parseInt(input.value) + change;
+            
+            if (newValue >= 1 && newValue <= phone.stock) {
+                input.value = newValue;
+            }
+        }
+
+        function addToCart(phoneId) {
+            const phone = phones.find(p => p.id === phoneId);
+            const quantity = parseInt(document.getElementById(`qty-${phoneId}`).value);
+            
+            const existingItem = cart.find(item => item.id === phoneId);
+            
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({
+                    ...phone,
+                    quantity: quantity
+                });
+            }
+            
+            updateCartDisplay();
+            
+            // Visual feedback
+            const button = event.target;
+            const originalText = button.textContent;
+            button.textContent = '✓ Added!';
+            button.style.background = '#27ae60';
+            
+            setTimeout(() => {
+                button.textContent = originalText;
+                button.style.background = '';
+            }, 1000);
+        }
+
+        function updateCartDisplay() {
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            
+            document.getElementById('cart-count').textContent = totalItems;
+            document.getElementById('cart-total').textContent = totalPrice.toFixed(2);
+            
+            renderCartItems();
+        }
+
+        function renderCartItems() {
+            const cartItemsDiv = document.getElementById('cart-items');
+            const modalTotal = document.getElementById('modal-cart-total');
+            
+            if (cart.length === 0) {
+                cartItemsDiv.innerHTML = '<p style="text-align: center; color: #999; padding: 20px;">Your cart is empty</p>';
+                modalTotal.textContent = 'Total: $0.00';
+                return;
+            }
+            
+            cartItemsDiv.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach(item => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div>
+                        <strong>${item.name}</strong><br>
+                        <small>$${item.price} × ${item.quantity}</small>
+                    </div>
+                    <div>
+                        <strong>$${itemTotal.toLocaleString()}</strong>
+                        <button onclick="removeFromCart(${item.id})" style="margin-left: 10px; background: #e74c3c; color: white; border: none; border-radius: 5px; padding: 5px 10px; cursor: pointer;">Remove</button>
+                    </div>
+                `;
+                cartItemsDiv.appendChild(cartItem);
+            });
+            
+            modalTotal.textContent = `Total: $${total.toLocaleString()}`;
+        }
+
+        function removeFromCart(phoneId) {
+            cart = cart.filter(item => item.id !== phoneId);
+            updateCartDisplay();
+        }
+
+        function toggleCart() {
+            const modal = document.getElementById('cart-modal');
+            modal.style.display = modal.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function checkout() {
+            if (cart.length === 0) {
+                alert('Your cart is empty!');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            alert(`Checkout successful! Total: $${total.toLocaleString()}\n\nThank you for your purchase! You will receive a confirmation email shortly.`);
+            
+            cart = [];
+            updateCartDisplay();
+            toggleCart();
+        }
+
+        function filterProducts() {
+            const brandFilter = document.getElementById('brand-filter').value;
+            const priceFilter = document.getElementById('price-filter').value;
+            const searchQuery = document.getElementById('search-input').value.toLowerCase();
+            
+            filteredPhones = phones.filter(phone => {
+                const matchesBrand = !brandFilter || phone.brand === brandFilter;
+                const matchesSearch = !searchQuery || 
+                    phone.name.toLowerCase().includes(searchQuery) ||
+                    phone.specs.toLowerCase().includes(searchQuery);
+                
+                let matchesPrice = true;
+                if (priceFilter) {
+                    const [min, max] = priceFilter.split('-').map(p => p.replace('+', ''));
+                    const minPrice = parseInt(min) || 0;
+                    const maxPrice = max ? parseInt(max) : Infinity;
+                    matchesPrice = phone.price >= minPrice && phone.price <= maxPrice;
+                }
+                
+                return matchesBrand && matchesSearch && matchesPrice;
+            });
+            
+            renderProducts();
+        }
+
+        // Close cart when clicking outside
+        document.getElementById('cart-modal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                toggleCart();
+            }
+        });
+
+        // Initialize the store
+        renderProducts();
+        updateCartDisplay();
+    </script>
+</body>
+</html>
